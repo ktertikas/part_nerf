@@ -2,8 +2,11 @@
 
 This repository contains the code that accompanies our CVPR 2023 paper [PartNeRF: Generating Part-Aware Editable 3D Shapes without 3D Supervision](https://ktertikas.github.io/part_nerf).
 
+![Teaser](assets/teaser_3.jpg)
+
 Code coming soon!!
 
+## Citation
 If you found our work influential or helpful for your research, please consider citing
 ```
 @inproceedings{Tertikas2023CVPR,
