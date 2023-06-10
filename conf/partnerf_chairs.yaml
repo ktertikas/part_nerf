@@ -1,0 +1,123 @@
+train_data:
+  dataset_factory: "RaysMasksColorsIndexedDataset"
+  collection_type: "shapenet"
+  dataset_directory: "/data/ShapeNetCore.v1-NeRF/03001627"
+  images_folder: "images_256_256"
+  cameras_folder: "cameras_256_256"
+  masks_folder: "masks_256_256"
+  splits_file: "../conf/chair_full.csv"
+  image_size: [256, 256]
+  near: 0.8
+  far: 2.8
+  perturb: 1.
+  n_rays: 512
+  n_samples: 64
+  sampling_type: "equal"
+  splits: ["train", "val"]
+train:
+  num_workers: 2
+  batch_size: 6
+val_data: null
+validation: null
+model:
+  coarse_fine: false
+  shape_embedding_network:
+    type: "simple"
+    embedding_size: 128
+    num_embeddings: 4747
+    max_norm: 1.
+  texture_embedding_network:
+    type: "simple"
+    embedding_size: 128
+    num_embeddings: 4747
+    max_norm: 1.
+  shape_decomposition_network:
+    type: "simple"
+    num_parts: 16
+    embedding_size: 128
+    output_size: 128
+    encoder:
+      type: "simple"
+  texture_decomposition_network:
+    type: "simple"
+    num_parts: 16
+    embedding_size: 128
+    output_size: 128
+    encoder:
+      type: "simple"
+  structure_network:
+    layers:
+      - "translations:embedding"
+      - "rotations:embedding"
+      - "scale:embedding"
+    scale_max_a: 0.3
+  occupancy_network:
+    type: "masked_occ"
+    embedding_size: 128
+    num_blocks: 2
+    output_dim: 257
+    chunk_size: 50000
+    sharpness_inside: 100
+    sharpness_outside: 100
+  color_network:
+    type: "hard"
+    encoder:
+      type: "residual"
+      proj_dims: [[510, 256, 256],[256, 256, 256],[256, 128, 64]]
+      out_dims: 3
+    dir_coord_system: "primitive"
+    dir_proj_dims: 20
+  ray_associator:
+    type: "occupancy"
+    implicit_threshold: 0.5
+renderer:
+  type: "occ_single_nerf"
+  white_background: false
+loss:
+  type:
+    - "mse_loss_positive"
+    - "mask_loss"
+    - "volume_consistency_loss"
+    - "ray_max_point_crossentropy"
+    - "ray_max_point_crossentropy_coarse"
+    - "ray_coverage_loss"
+    - "ray_overlapping_loss_coarse"
+    - "shape_embedding_normalization_loss"
+    - "texture_embedding_normalization_loss"
+  weights:
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+    - 0.0001
+    - 0.01
+    - 0.01
+    - 0.0001
+    - 0.0001
+  num_inside_rays: 16
+scheduler:
+  type: warmup_cosine
+  warmup_steps: 300
+  max_steps: 125000
+  start_lr: 0.0
+  eta_min: 0.000005
+optimizer:
+  lr: 0.0005
+metric:
+  type:
+    - "psnr"
+    - "scale"
+    - "associator"
+trainer:
+  start_epoch: 0
+  num_epochs: 250
+  steps_per_epoch: 3000
+  grad_accumulation_steps: 6
+  statslogger: "wandb"
+  project_name: "nerf_editor"
+  experiment_name: null
+  output_directory: "../outputs"
+  save_checkpoint_every: 3
+  run_validation_every: null
+  train_visualize_every: 3
+  seed: 23

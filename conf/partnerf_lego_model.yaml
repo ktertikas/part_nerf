@@ -1,0 +1,54 @@
+model:
+  coarse_fine: false
+  shape_embedding_network:
+    type: "simple"
+    embedding_size: 128
+    num_embeddings: 1
+    max_norm: 1.
+  texture_embedding_network:
+    type: "simple"
+    embedding_size: 128
+    num_embeddings: 1
+    max_norm: 1.
+  shape_decomposition_network:
+    type: "simple"
+    num_parts: 16
+    embedding_size: 128
+    output_size: 128
+    encoder:
+      type: "simple"
+  texture_decomposition_network:
+    type: "simple"
+    num_parts: 16
+    embedding_size: 128
+    output_size: 128
+    encoder:
+      type: "simple"
+  structure_network:
+    layers:
+      - "translations:embedding"
+      - "rotations:embedding"
+      - "scale:embedding"
+    scale_max_a: 0.6
+  occupancy_network:
+    type: "masked_occ"
+    embedding_size: 128
+    num_blocks: 2
+    output_dim: 257
+    chunk_size: 50000
+    sharpness_inside: 100
+    sharpness_outside: 100
+  color_network:
+    type: "hard"
+    encoder:
+      type: "residual"
+      proj_dims: [[510, 256, 256],[256, 256, 256],[256, 128, 64]]
+      out_dims: 3
+    dir_coord_system: "primitive"
+    dir_proj_dims: 20
+  ray_associator:
+    type: "occupancy"
+    implicit_threshold: 0.5
+renderer:
+  type: "occ_single_nerf"
+  white_background: true

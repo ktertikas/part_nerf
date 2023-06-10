@@ -1,0 +1,7 @@
+conf/*.csv filter=lfs diff=lfs merge=lfs -text
+assets/teaser_3.jpg filter=lfs diff=lfs merge=lfs -text
+assets/shape_interpolation.png filter=lfs diff=lfs merge=lfs -text
+assets/shape_mixing.png filter=lfs diff=lfs merge=lfs -text
+assets/part_editing.png filter=lfs diff=lfs merge=lfs -text
+assets/part_interpolation.png filter=lfs diff=lfs merge=lfs -text
+assets/shape_generation.png filter=lfs diff=lfs merge=lfs -text
