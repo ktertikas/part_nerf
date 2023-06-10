@@ -81,7 +81,7 @@ pip install -e .
 ## ShapeNet
 We render the ShapeNet dataset images and 2D masks using the [simple-3dviz](https://simple-3dviz.com) library. In order to do the rendering on your own, you can use the script that we provide. Note that you first need to download the [ShapeNetCore.v1](https://shapenet.org/) dataset. After downloading and extracting the dataset, you can run the following command to generate masks, images, and cameras for the `airplanes, cars, motorbikes` categories:
 ```bash
-conda activate shape editor # Or use docker run -it ... if you prefer docker
+conda activate part_nerf # Or use docker run -it ... if you prefer docker
 python scripts/render_shapenet.py [PATH_TO_SHAPENET_CATEGORY] --num_cpus [SELECTED_NUMBER_OF_CPUS]
 ```
 For the `chairs, tables` classes you need to render the objects from a slightly bigger distance, so the above command becomes as follows:
