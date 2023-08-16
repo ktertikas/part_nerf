@@ -142,6 +142,11 @@ We provide a script that can run inference on the pretrained per-instance latent
 cd [PATH_TO_REPOSITORY]/scripts
 python inference.py conf/partnerf_airplanes_model.yaml --checkpoint_path [PATH_TO_SAVED_CHECKPOINT] --embedding_ids 0 1 2 3 4
 ```
+In the case of the Lego Tractor Dataset, the camera position and the up vector reference are different in comparison to ShapeNet, so the inference command should be adapted as follows:
+```bash
+cd [PATH_TO_REPOSITORY]/scripts
+python inference.py conf/partnerf_lego_model.yaml --checkpoint_path [PATH_TO_SAVED_CHECKPOINT] --embedding_ids 0  --near 2.0 --far 6.0 --padding 2.0 --up_vector z --camera_distance 4.0
+```
 ### Generated Shapes
 ```bash
 cd [PATH_TO_REPOSITORY]/scripts
