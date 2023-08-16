@@ -74,4 +74,10 @@ def add_ray_sampling_args(parser: argparse.ArgumentParser) -> argparse.ArgumentP
         default=128,
         help="Number of sampled points along a ray",
     )
+    parser.add_argument(
+        "--up_vector",
+        type=str,
+        default="y",
+        help="The vector pointing upwards. y for shapenet, z for the lego dataset",
+    )
     return parser

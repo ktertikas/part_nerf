@@ -90,6 +90,7 @@ def main(args):
     far = args.far
     H = args.height
     W = args.width
+    up_vector = args.up_vector
     num_samples = args.num_point_samples
     rays_chunk = args.rays_chunk
 
@@ -128,6 +129,7 @@ def main(args):
         elevation_start=10,
         elevation_stop=0,
         elevation_step=-11,
+        up=up_vector,
     )
 
     model.eval()
@@ -142,6 +144,7 @@ def main(args):
             near=near,
             far=far,
             num_samples=num_samples,
+            up=up_vector,
         )
         X = dict_to_device_and_batchify(X, device=device)
         # Load latent code or specify embedding id
