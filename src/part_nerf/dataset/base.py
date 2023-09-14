@@ -120,7 +120,8 @@ class BaseFrameDatum:
             torch_img = torch_img * torch_mask[..., None]
             if white_background:
                 # color outer mask rays to white
-                torch_img[~torch_mask] = 1.0
+                mask_bool = torch_mask > 0.0
+                torch_img[~mask_bool] = 1.0
         return torch_img
 
     @property
