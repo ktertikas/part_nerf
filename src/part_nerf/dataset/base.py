@@ -84,7 +84,7 @@ class BaseFrameDatum:
         if self.path_to_mask_file.is_file():
             mask = Image.open(self.path_to_mask_file).convert("L")
             mask = mask.resize(
-                mask_size,
+                (mask_size[1], mask_size[0]),
                 resample=Image.BILINEAR,
             )
             mask_np = np.asarray(mask, dtype=bool)
@@ -94,7 +94,7 @@ class BaseFrameDatum:
         if img.mode == "RGBA":
             mask = img.split()[-1]
             mask = mask.resize(
-                mask_size,
+                (mask_size[1], mask_size[0]),
                 resample=Image.BILINEAR,
             )
             mask_np = np.asarray(mask, dtype=bool)
@@ -108,7 +108,7 @@ class BaseFrameDatum:
         img = Image.open(self.path_to_img_file).convert("RGB")
         img_size = tuple(self.config.get("image_size"))
         img = img.resize(
-            img_size,
+            (img_size[1], img_size[0]),
             resample=Image.BILINEAR,
         )
         torch_img = torch.from_numpy(
